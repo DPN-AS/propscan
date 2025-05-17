@@ -16,6 +16,11 @@ class Property:
     longitude: float
 
 
+def google_maps_link(lat: float, lon: float) -> str:
+    """Return a Google Maps link for routing to the given coordinates."""
+    return f"https://www.google.com/maps/dir/?api=1&destination={lat},{lon}"
+
+
 def haversine(coord1: Tuple[float, float], coord2: Tuple[float, float]) -> float:
     """Calculate the great-circle distance between two (lat, lon) coordinates."""
     R = 6371  # Earth radius in kilometers
@@ -81,7 +86,8 @@ def main(argv: List[str] | None = None) -> None:
     props = read_properties(args.csv)
     ordered = order_properties(props)
     for prop in ordered:
-        print(prop.address)
+        link = google_maps_link(prop.latitude, prop.longitude)
+        print(f"{prop.address} - {link}")
 
 
 if __name__ == "__main__":
